@@ -67,3 +67,158 @@ The callback function takes two parameters: req (short for "request") represents
 In this specific example, the callback function simply sends the response "Hello World!" back to the client using the res.send() method. This means that when a client makes an HTTP GET request to the root path ("/"), the server will respond with the text "Hello World!".
 
 This is a very basic example to demonstrate the concept of route handling in Express.js. In a real-world application, you would typically have more complex routes and logic in your callback functions to handle various requests and provide appropriate responses.
+
+
+
+
+
+7.   Describe the code below:                                                                                                                                                              
+    const mongoose = require("mongoose");
+
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost:27017/TaskManager", {
+  useNewUrlParser: true}).then(() => {
+    console.log("Connected to Mongodb successfully :)");
+  }).catch((e) => {
+    console.log("Erroe while attempting to connect to MongoDB");
+    console.log(e);
+  });
+
+
+The code you provided sets up a connection to a MongoDB database using the Mongoose library in a Node.js environment. Here's a breakdown of what each part of the code does:
+
+The first line imports the Mongoose library, which is a MongoDB object modeling tool for Node.js.
+
+mongoose.Promise = global.Promise; sets the default promise library to be used by Mongoose. In this case, it sets it to the global Promise implementation.
+
+mongoose.connect("mongodb://localhost:27017/TaskManager", { useNewUrlParser: true}) establishes a connection to the MongoDB database located at "mongodb://localhost:27017/TaskManager". Here, "mongodb://localhost:27017" is the URL of the MongoDB server, and "TaskManager" is the name of the database.
+
+The connect function returns a promise, so it can be chained with .then() and .catch() to handle the success and failure cases respectively.
+
+If the connection is successful, the code inside the then() block will be executed, and it will log the message "Connected to MongoDB successfully :)" to the console.
+
+If there is an error while attempting to connect, the code inside the catch() block will be executed. It logs the message "Error while attempting to connect to MongoDB" along with the error object to the console.
+
+Overall, this code sets up a connection to a MongoDB database using Mongoose and handles the success and failure cases of the connection attempt.
+
+
+
+
+8.    Describe the code below:                                                                                                   
+               mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
+
+module.exports = {
+  mongoose,
+};
+
+
+
+The code snippet you provided includes configuration settings for the Mongoose library and exports the mongoose object for use in other modules. Here's a breakdown of what each part of the code does:
+
+mongoose.set("useCreateIndex", true); sets the Mongoose option useCreateIndex to true. This option enables the use of the createIndex() function for creating indexes in MongoDB. By default, Mongoose uses the MongoDB driver's ensureIndex() function, but since it is deprecated, setting useCreateIndex to true allows Mongoose to use createIndex() instead.
+
+mongoose.set("useFindAndModify", false); sets the Mongoose option useFindAndModify to false. This option determines whether Mongoose should use the MongoDB driver's findAndModify() function or the newer findOneAndUpdate() and findOneAndDelete() functions. By setting it to false, Mongoose will use the newer functions instead of findAndModify().
+
+module.exports = { mongoose }; exports the mongoose object so that it can be accessed by other modules that import this file. By exporting mongoose, other modules can use the Mongoose library and its functionalities without the need to import it separately.
+
+Overall, this code snippet sets some configuration options for the Mongoose library, enabling the use of createIndex() for index creation and using the newer functions for find and modify operations. It also exports the mongoose object for use in other modules.
+
+
+
+
+
+
+9.    Explain the code below:                                                                                                                                                             
+ const mongoose = require("mongoose");
+
+const ListSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    minlength: 1,
+    trim: true,
+  },
+});
+
+const List = mongoose.Model("List", ListSchema);
+module.exports = { List };
+
+
+
+The code snippet you provided defines a Mongoose schema and model for a "List" in a MongoDB database. Here's a breakdown of what each part of the code does:
+
+const mongoose = require("mongoose"); imports the Mongoose library, which is a MongoDB object modeling tool for Node.js. It allows you to define schemas and models to interact with MongoDB collections.
+
+const ListSchema = new mongoose.Schema({ ... }); creates a new Mongoose schema called "ListSchema" using the mongoose.Schema function. A schema defines the structure and validation rules for a MongoDB collection.
+
+Inside the ListSchema object, there is a property called "title". It is defined as a string type (type: String) and is marked as required (required: true). It also has additional validation rules specified: minlength: 1 to ensure that the title has at least one character, and trim: true to remove any leading or trailing white spaces.
+
+const List = mongoose.model("List", ListSchema); creates a Mongoose model called "List" using the mongoose.model function. The model represents a MongoDB collection and allows you to perform database operations on documents within that collection based on the defined schema.
+
+module.exports = { List }; exports the "List" model so that it can be used in other modules that import this file. By exporting List, other modules can create, retrieve, update, or delete "List" documents in the MongoDB database.
+
+In summary, this code defines a Mongoose schema for a "List" collection, specifies the schema's properties and validation rules, creates a Mongoose model based on the schema, and exports the model for use in other modules. This allows for convenient interaction with the "List" collection in the connected MongoDB database.
+
+
+
+
+
+
+
+10.   what is mongoose model?
+
+
+
+
+In the Mongoose library, a model is a higher-level abstraction that represents a collection in a MongoDB database. It provides an interface for creating, reading, updating, and deleting documents within that collection.
+
+A Mongoose model is created by defining a schema, which specifies the structure, data types, and validation rules for the documents in the collection. The model acts as a constructor function for creating document instances that adhere to the defined schema.
+
+Once a model is created, it provides various methods and functionalities for interacting with the database. Some common operations that can be performed on a Mongoose model include:
+
+Creating new documents: You can use the model's create() method to create and insert new documents into the collection.
+
+Querying documents: Mongoose models provide methods like find(), findOne(), findById(), etc., to retrieve documents from the collection based on specified criteria.
+
+Updating documents: Models have methods like findOneAndUpdate() and updateOne() to update existing documents in the collection.
+
+Deleting documents: The model provides methods like findOneAndDelete() and deleteOne() to remove documents from the collection.
+
+Validation: Mongoose models automatically validate documents against the defined schema's validation rules, ensuring data integrity and consistency.
+
+Models also allow you to define static and instance methods, virtual properties, middleware functions, and more, providing additional flexibility and customization.
+
+In summary, a Mongoose model acts as an interface between your application and the MongoDB database, allowing you to perform CRUD operations on documents within a specific collection, while enforcing the defined schema and providing additional functionality.
+
+
+
+
+
+11.   Expalin the code below:                                                                                                                                                               
+   const {List} = require('./db/models/list.model');
+const {Task} = require('./db/models/task.model');
+
+
+
+The code snippet you provided is importing the List and Task models from two separate files located in the ./db/models directory. Here's a breakdown of what each part of the code does:
+
+const { List } = require('./db/models/list.model'); imports the List model from the list.model.js file located in the ./db/models directory. The curly braces {} are used for object destructuring, allowing you to extract specific properties from the imported module. In this case, it extracts the List model from the module and assigns it to the List variable.
+
+const { Task } = require('./db/models/task.model'); imports the Task model from the task.model.js file located in the ./db/models directory. Similarly, it uses object destructuring to extract the Task model from the module and assigns it to the Task variable.
+
+By importing the List and Task models from their respective files, you can use these models in the current module to interact with the MongoDB database. This allows you to perform CRUD operations on the corresponding collections, such as creating new lists or tasks, querying existing ones, updating or deleting them, and more.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
