@@ -12,8 +12,11 @@ const { List, Task } = require("./db/models");
  * GET /lists
  * Purpose: Get all lists
  */
-app.get("/", (req, res) => {
+app.get("/lists", (req, res) => {
   //we want to return an array at all the lists in the database
+  List.find({}).then((lists) => {
+    res.send(lists);
+  });
 });
 
 /**
